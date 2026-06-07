@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -9,519 +10,155 @@
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --red: #C8102E;
-    --red-dark: #9B0D22;
-    --red-light: #FDF1F3;
-    --red-mid: #E8A0AA;
-    --navy: #1B2B4B;
-    --gray-bg: #F5F4F1;
-    --gray-border: #E0DDD7;
-    --gray-muted: #9B9690;
-    --text: #1A1A1A;
-    --white: #FEFEFE;
-    --green: #2A7A3B;
-    --green-bg: #EAF5ED;
-    --radius: 14px;
-    --radius-sm: 10px;
+    --red: #C8102E; --red-dark: #9B0D22; --red-light: #FDF1F3; --red-mid: #E8A0AA;
+    --navy: #1B2B4B; --gray-bg: #F5F4F1; --gray-border: #E0DDD7; --gray-muted: #9B9690;
+    --text: #1A1A1A; --white: #FEFEFE; --green: #2A7A3B;
+    --radius: 14px; --radius-sm: 10px;
   }
+  html, body { min-height: 100vh; background: var(--gray-bg); font-family: 'DM Sans', sans-serif; color: var(--text); -webkit-font-smoothing: antialiased; }
+  body { display: flex; flex-direction: column; align-items: center; padding: 0 0 4rem; }
 
-  html, body {
-    min-height: 100vh;
-    background: var(--gray-bg);
-    font-family: 'DM Sans', sans-serif;
-    color: var(--text);
-    -webkit-font-smoothing: antialiased;
-  }
+  .ticket-header { width: 100%; max-width: 520px; background: var(--white); border-bottom: 1px solid var(--gray-border); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .drk-brand { display: flex; align-items: center; gap: 12px; }
 
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 0 4rem;
-  }
-
-  /* ---- HEADER (matches ticket top bar) ---- */
-  .ticket-header {
-    width: 100%;
-    max-width: 520px;
-    background: var(--white);
-    border-bottom: 1px solid var(--gray-border);
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .drk-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .drk-cross-box {
-    width: 38px;
-    height: 38px;
-    background: var(--red);
-    border-radius: 7px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  /* DRK cross: white box, red cross, correct proportions */
+  /* Real DRK cross: 5x5 grid, arms are 1 unit wide, 3 units tall/wide, cross fills 3/5 of the square */
+  .drk-logo-box {
+    width: 42px; height: 42px; background: var(--white);
+    border: 1.5px solid #ddd; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
   }
 
-  .drk-cross-box svg {
-    width: 20px;
-    height: 20px;
+  .drk-name { font-size: 11px; font-weight: 600; color: var(--text); line-height: 1.4; }
+  .drk-name span { display: block; font-weight: 400; color: var(--gray-muted); font-size: 10.5px; }
+  .donor-pill { text-align: right; }
+  .donor-pill-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--red); }
+  .donor-pill-id { font-size: 20px; font-weight: 700; color: var(--navy); letter-spacing: .02em; line-height: 1.1; }
+
+  .main-card { background: var(--white); width: 100%; max-width: 520px; border-bottom: 1px solid var(--gray-border); }
+  .hero-strip { background: var(--red); padding: 10px 20px; }
+  .hero-strip-text { font-size: 13px; font-weight: 600; color: white; }
+  .greeting-block { padding: 20px; border-bottom: 1px solid var(--gray-border); }
+  .greeting-title { font-family: 'Source Serif 4', serif; font-size: 26px; font-weight: 600; color: var(--navy); line-height: 1.25; margin-bottom: 4px; }
+  .greeting-sub { font-size: 13px; color: var(--gray-muted); }
+  .cta-hint { padding: 14px 20px; display: flex; align-items: flex-start; gap: 12px; border-bottom: 1px solid var(--gray-border); background: var(--gray-bg); }
+  .cta-hint-icon { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--red); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .cta-hint-icon svg { width: 14px; height: 14px; color: var(--red); }
+  .cta-hint-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+  .cta-hint-text strong { font-weight: 600; }
+  .card-body { padding: 22px 20px 28px; }
+
+  .section-title { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 12px; }
+  .section-title svg { width: 18px; height: 18px; color: var(--red); flex-shrink: 0; }
+
+  .field-wrap { margin-bottom: 20px; }
+  .field-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--gray-muted); margin-bottom: 6px; display: block; }
+  .field-label .opt { font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; }
+  input[type="text"], input[type="email"], input[type="date"], select {
+    width: 100%; padding: 12px 14px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+    color: var(--text); background: var(--gray-bg); border: 1.5px solid var(--gray-border);
+    border-radius: var(--radius-sm); outline: none; transition: border-color .15s, box-shadow .15s; appearance: none;
   }
+  input::placeholder { color: var(--gray-muted); }
+  input:focus, select:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(200,16,46,.09); background: var(--white); }
+  .select-wrap { position: relative; }
+  .select-wrap::after { content: ''; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid var(--gray-muted); pointer-events: none; }
+  select { cursor: pointer; padding-right: 36px; }
+  .error-msg { display: none; font-size: 12px; color: var(--red); margin-top: 6px; }
 
-  .drk-name {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1.4;
-  }
+  .location-info { background: var(--gray-bg); border-radius: var(--radius-sm); padding: 10px 14px; margin-top: 8px; font-size: 12.5px; color: var(--gray-muted); line-height: 1.5; display: flex; gap: 8px; align-items: flex-start; }
+  .location-info svg { width: 13px; height: 13px; flex-shrink: 0; margin-top: 2px; color: var(--red); }
 
-  .drk-name span {
-    display: block;
-    font-weight: 400;
-    color: var(--gray-muted);
-    font-size: 10.5px;
-  }
+  .divider { height: 1px; background: var(--gray-border); margin: 22px 0; }
 
-  .donor-pill {
-    text-align: right;
-  }
-
-  .donor-pill-label {
-    font-size: 9px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--red);
-  }
-
-  .donor-pill-id {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--navy);
-    letter-spacing: 0.02em;
-    line-height: 1.1;
-  }
-
-  /* ---- MAIN CARD ---- */
-  .main-card {
-    background: var(--white);
-    width: 100%;
-    max-width: 520px;
-    margin-top: 0;
-    border-bottom: 1px solid var(--gray-border);
-  }
-
-  /* Hero strip */
-  .hero-strip {
-    background: var(--red);
-    padding: 10px 20px;
-  }
-
-  .hero-strip-text {
-    font-size: 13px;
-    font-weight: 600;
-    color: white;
-    letter-spacing: 0.01em;
-  }
-
-  /* Greeting block */
-  .greeting-block {
-    padding: 20px 20px 0;
-    border-bottom: 1px solid var(--gray-border);
-    padding-bottom: 20px;
-  }
-
-  .greeting-title {
-    font-family: 'Source Serif 4', serif;
-    font-size: 26px;
-    font-weight: 600;
-    color: var(--navy);
-    line-height: 1.25;
-    margin-bottom: 4px;
-  }
-
-  .greeting-sub {
-    font-size: 13px;
-    color: var(--gray-muted);
-  }
-
-  /* CTA hint */
-  .cta-hint {
-    padding: 14px 20px;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    border-bottom: 1px solid var(--gray-border);
-    background: var(--gray-bg);
-  }
-
-  .cta-hint-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 2px solid var(--red);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .cta-hint-icon svg {
-    width: 14px;
-    height: 14px;
-    color: var(--red);
-  }
-
-  .cta-hint-text {
-    font-size: 13px;
-    color: var(--text);
-    line-height: 1.55;
-  }
-
-  .cta-hint-text strong {
-    font-weight: 600;
-  }
-
-  /* Body */
-  .card-body {
-    padding: 22px 20px 28px;
-  }
-
-  /* Section title (matches ticket style) */
-  .section-title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 12px;
-  }
-
-  .section-title svg {
-    width: 18px;
-    height: 18px;
-    color: var(--red);
-    flex-shrink: 0;
-  }
-
-  .section-title .hl {
-    color: var(--red);
-    font-style: italic;
-  }
-
-  /* Name field */
-  .name-wrap {
-    margin-bottom: 22px;
-  }
-
-  .name-field {
-    width: 100%;
-    padding: 12px 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 400;
-    color: var(--text);
-    background: var(--gray-bg);
-    border: 1.5px solid var(--gray-border);
-    border-radius: var(--radius-sm);
-    outline: none;
-    transition: border-color 0.15s, box-shadow 0.15s;
-  }
-
-  .name-field::placeholder { color: var(--gray-muted); }
-
-  .name-field:focus {
-    border-color: var(--red);
-    box-shadow: 0 0 0 3px rgba(200,16,46,0.09);
-    background: var(--white);
-  }
-
-  .error-msg {
-    display: none;
-    font-size: 12px;
-    color: var(--red);
-    margin-top: 6px;
-  }
-
-  /* Slots */
-  .slots { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
-
-  .slot {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 13px 14px;
-    border: 1.5px solid var(--gray-border);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: all 0.14s;
-    background: var(--white);
-    position: relative;
-  }
-
+  .slots { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+  .slot { display: flex; align-items: center; gap: 12px; padding: 13px 14px; border: 1.5px solid var(--gray-border); border-radius: var(--radius-sm); cursor: pointer; transition: all .14s; background: var(--white); }
   .slot:hover { border-color: var(--red-mid); background: var(--red-light); }
-
-  .slot.selected {
-    border-color: var(--red);
-    background: var(--red-light);
-    box-shadow: 0 0 0 3px rgba(200,16,46,0.08);
-  }
-
-  .slot.recommended {
-    border-color: var(--red);
-  }
-
-  .slot input[type="radio"] {
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--gray-border);
-    border-radius: 50%;
-    flex-shrink: 0;
-    transition: all 0.14s;
-    cursor: pointer;
-  }
-
-  .slot.selected input[type="radio"],
-  .slot.recommended.selected input[type="radio"] {
-    border-color: var(--red);
-    background: var(--red);
-    box-shadow: inset 0 0 0 3.5px var(--white);
-  }
-
+  .slot.selected { border-color: var(--red); background: var(--red-light); box-shadow: 0 0 0 3px rgba(200,16,46,.08); }
+  .slot.recommended { border-color: var(--red); }
+  .slot input[type="radio"] { appearance: none; width: 20px; height: 20px; border: 2px solid var(--gray-border); border-radius: 50%; flex-shrink: 0; transition: all .14s; cursor: pointer; min-width: 20px; }
+  .slot.selected input[type="radio"] { border-color: var(--red); background: var(--red); box-shadow: inset 0 0 0 3.5px var(--white); }
   .slot-main { flex: 1; }
-
-  .slot-top {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .slot-date {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--navy);
-  }
-
-  .badge-empfohlen {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 2px 8px;
-    border-radius: 100px;
-    background: var(--red);
-    color: white;
-  }
-
-  .slot-sub {
-    font-size: 12px;
-    color: var(--green);
-    margin-top: 3px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-
-  .slot-sub svg {
-    width: 12px;
-    height: 12px;
-    flex-shrink: 0;
-  }
-
+  .slot-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .slot-date { font-size: 15px; font-weight: 500; color: var(--navy); }
+  .badge-empfohlen { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 100px; background: var(--red); color: white; }
+  .slot-sub { font-size: 12px; color: var(--green); margin-top: 3px; display: flex; align-items: center; gap: 5px; }
+  .slot-sub svg { width: 12px; height: 12px; flex-shrink: 0; }
   .slot-sub.muted { color: var(--gray-muted); }
+  .slot-time-wrap .select-wrap::after { right: 10px; }
+  .slot-time-select { width: auto; padding: 6px 28px 6px 10px; font-size: 13px; font-weight: 500; color: var(--navy); background: var(--white); border: 1.5px solid var(--gray-border); border-radius: 8px; cursor: pointer; min-width: 105px; font-family: 'DM Sans', sans-serif; }
+  .slot-time-select:focus { border-color: var(--red); box-shadow: 0 0 0 2px rgba(200,16,46,.08); outline: none; background: var(--white); }
 
-  .interval-note {
-    font-size: 11.5px;
-    color: var(--gray-muted);
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+  .custom-slot { border: 1.5px dashed var(--gray-border); border-radius: var(--radius-sm); overflow: hidden; margin-top: 4px; }
+  .custom-slot-toggle { display: flex; align-items: center; gap: 10px; padding: 13px 14px; cursor: pointer; background: var(--white); transition: background .14s; user-select: none; }
+  .custom-slot-toggle:hover { background: var(--gray-bg); }
+  .custom-slot-toggle.open { background: var(--gray-bg); }
+  .custom-toggle-radio { width: 20px; height: 20px; border: 2px solid var(--gray-border); border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .14s; min-width: 20px; }
+  .custom-toggle-radio.selected { border-color: var(--red); background: var(--red); box-shadow: inset 0 0 0 3.5px var(--white); }
+  .custom-toggle-label { font-size: 14px; font-weight: 500; color: var(--navy); flex: 1; }
+  .custom-toggle-label small { display: block; font-size: 12px; font-weight: 400; color: var(--gray-muted); margin-top: 2px; }
+  .custom-toggle-chevron { width: 16px; height: 16px; color: var(--gray-muted); transition: transform .2s; flex-shrink: 0; }
+  .custom-toggle-chevron.open { transform: rotate(180deg); }
+  .custom-picker-body { padding: 16px 14px; border-top: 1px solid var(--gray-border); background: var(--gray-bg); display: none; }
+  .custom-picker-body.open { display: block; }
+  .custom-picker-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .custom-picker-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--gray-muted); margin-bottom: 5px; }
+  input[type="date"] { padding: 10px 12px; font-size: 14px; }
 
+  .interval-note { font-size: 11.5px; color: var(--gray-muted); margin-top: 12px; display: flex; align-items: center; gap: 6px; }
   .interval-note svg { width: 13px; height: 13px; flex-shrink: 0; }
 
-  /* Divider */
-  .divider {
-    height: 1px;
-    background: var(--gray-border);
-    margin: 22px 0;
-  }
-
-  /* CTA button */
-  .cta {
-    width: 100%;
-    padding: 15px;
-    background: var(--red);
-    color: #fff;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: background 0.14s, transform 0.1s;
-    margin-top: 20px;
-  }
-
+  .cta { width: 100%; padding: 15px; background: var(--red); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600; border: none; border-radius: var(--radius-sm); cursor: pointer; transition: background .14s, transform .1s; margin-top: 20px; }
   .cta:hover { background: var(--red-dark); }
-  .cta:active { transform: scale(0.985); }
+  .cta:active { transform: scale(.985); }
 
-  /* ---- CONFIRMATION ---- */
-  .confirm-screen {
-    display: none;
-    background: var(--white);
-    width: 100%;
-    max-width: 520px;
-    padding: 2.5rem 1.5rem 3rem;
-    text-align: center;
-  }
+  .footer-strip { width: 100%; max-width: 520px; background: var(--red-dark); padding: 20px; text-align: center; color: white; font-size: 14px; font-weight: 500; line-height: 1.5; display: flex; align-items: center; justify-content: center; gap: 12px; }
+  .footer-strip svg { width: 22px; height: 22px; opacity: .8; flex-shrink: 0; }
 
-  .confirm-icon-wrap {
-    width: 72px;
-    height: 72px;
-    background: var(--red-light);
-    border-radius: 50%;
-    margin: 0 auto 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .confirm-icon-wrap svg {
-    width: 34px;
-    height: 34px;
-    color: var(--red);
-  }
-
-  .confirm-title {
-    font-family: 'Source Serif 4', serif;
-    font-size: 26px;
-    font-weight: 600;
-    color: var(--navy);
-    margin-bottom: 6px;
-  }
-
-  .confirm-sub {
-    font-size: 14px;
-    color: var(--gray-muted);
-    line-height: 1.6;
-    margin-bottom: 1.75rem;
-  }
-
-  .confirm-box {
-    background: var(--gray-bg);
-    border-radius: var(--radius-sm);
-    padding: 1.1rem 1.25rem;
-    text-align: left;
-    margin-bottom: 1.5rem;
-  }
-
-  .confirm-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 7px 0;
-  }
-
+  .confirm-screen { display: none; background: var(--white); width: 100%; max-width: 520px; padding: 2.5rem 1.5rem 3rem; text-align: center; }
+  .confirm-icon-wrap { width: 72px; height: 72px; background: var(--red-light); border-radius: 50%; margin: 0 auto 1.25rem; display: flex; align-items: center; justify-content: center; }
+  .confirm-icon-wrap svg { width: 34px; height: 34px; color: var(--red); }
+  .confirm-title { font-family: 'Source Serif 4', serif; font-size: 26px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+  .confirm-sub { font-size: 14px; color: var(--gray-muted); line-height: 1.6; margin-bottom: 1.75rem; }
+  .confirm-box { background: var(--gray-bg); border-radius: var(--radius-sm); padding: 1.1rem 1.25rem; text-align: left; margin-bottom: 1.25rem; }
+  .confirm-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; }
   .confirm-row + .confirm-row { border-top: 1px solid var(--gray-border); }
-
-  .cr-label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-    color: var(--gray-muted);
-  }
-
-  .cr-value {
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--navy);
-    text-align: right;
-  }
-
-  /* footer strip */
-  .footer-strip {
-    width: 100%;
-    max-width: 520px;
-    background: var(--red-dark);
-    padding: 20px;
-    text-align: center;
-    color: white;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-  }
-
-  .footer-strip svg { width: 22px; height: 22px; opacity: 0.8; flex-shrink: 0; }
-
-  .back-link {
-    font-size: 13px;
-    color: var(--gray-muted);
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    transition: color 0.14s;
-    text-decoration: none;
-  }
-
+  .cr-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--gray-muted); }
+  .cr-value { font-size: 13.5px; font-weight: 500; color: var(--navy); text-align: right; }
+  .confirm-email-block { text-align: left; margin-bottom: 1.5rem; }
+  .email-btn { margin-top: 8px; padding: 10px 16px; background: transparent; border: 1.5px solid var(--red); color: var(--red); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; border-radius: var(--radius-sm); cursor: pointer; width: 100%; transition: background .14s; }
+  .email-btn:hover { background: var(--red-light); }
+  .email-sent-msg { display: none; font-size: 13px; color: var(--green); margin-top: 8px; align-items: center; gap: 6px; }
+  .email-sent-msg svg { width: 14px; height: 14px; }
+  .back-link { font-size: 13px; color: var(--gray-muted); cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: color .14s; text-decoration: none; }
   .back-link:hover { color: var(--red); }
   .back-link svg { width: 13px; height: 13px; }
 
-  /* Animations */
-  .fadein { animation: fadeIn 0.35s ease both; }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes checkPop {
-    0%  { transform: scale(0.4); opacity: 0; }
-    65% { transform: scale(1.12); }
-    100%{ transform: scale(1);   opacity: 1; }
-  }
-
-  .confirm-screen.fadein .confirm-icon-wrap {
-    animation: checkPop 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.1s both;
-  }
+  .fadein { animation: fadeIn .35s ease both; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes checkPop { 0% { transform: scale(.4); opacity: 0; } 65% { transform: scale(1.12); } 100% { transform: scale(1); opacity: 1; } }
+  .confirm-screen.fadein .confirm-icon-wrap { animation: checkPop .5s cubic-bezier(0.34,1.56,0.64,1) .1s both; }
 </style>
 </head>
 <body>
 
-<!-- ===== BOOKING VIEW ===== -->
 <div id="booking-view">
-
-  <!-- Header matching ticket -->
   <div class="ticket-header">
     <div class="drk-brand">
-      <div class="drk-cross-box">
-        <svg viewBox="0 0 20 20" fill="none">
-          <rect x="8" y="2" width="4" height="16" rx="1" fill="white"/>
-          <rect x="2" y="8" width="16" height="4" rx="1" fill="white"/>
+      <!-- DRK cross: 5×5 grid, each arm is 1 unit wide × 3 units tall.
+           ViewBox 50×50, unit=10px. Cross arms: 20px wide, 30px tall.
+           Horizontal bar: x=10,y=20, w=30,h=10. Vertical bar: x=20,y=10, w=10,h=30. -->
+      <div class="drk-logo-box">
+        <svg viewBox="0 0 50 50" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="20" width="30" height="10" fill="#C8102E"/>
+          <rect x="20" y="10" width="10" height="30" fill="#C8102E"/>
         </svg>
       </div>
       <div class="drk-name">
         Deutsches Rotes Kreuz
-        <span>DRK Blutspendezentrum Mitte · Hauptstr. 12, 10115 Berlin</span>
+        <span id="header-location-label">DRK Blutspendedienst · Berlin</span>
       </div>
     </div>
     <div class="donor-pill">
@@ -531,24 +168,16 @@
   </div>
 
   <div class="main-card">
-    <!-- Red label strip -->
     <div class="hero-strip">
       <div class="hero-strip-text">Termin buchen &amp; wieder Leben retten</div>
     </div>
-
-    <!-- Greeting -->
     <div class="greeting-block">
       <div class="greeting-title">Wir freuen uns,<br>Sie wiederzusehen!</div>
-      <div class="greeting-sub">Ihr Team vom DRK Blutspendezentrum Mitte</div>
+      <div class="greeting-sub">Ihr Team vom DRK Blutspendedienst Nord-Ost Berlin</div>
     </div>
-
-    <!-- Hint -->
     <div class="cta-hint">
       <div class="cta-hint-icon">
-        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-          <circle cx="7" cy="7" r="5.5"/>
-          <path d="M7 6v4M7 4.5v.01"/>
-        </svg>
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="7" cy="7" r="5.5"/><path d="M7 6v4M7 4.5v.01"/></svg>
       </div>
       <div class="cta-hint-text">
         Sichern Sie sich jetzt Ihren nächsten Termin. So sparen Sie <strong>wertvolle Zeit</strong> im Alltag und garantieren, dass Ihre Hilfe <strong>genau dann ankommt</strong>, wenn sie am dringendsten gebraucht wird.
@@ -557,200 +186,291 @@
 
     <div class="card-body">
 
-      <!-- Name -->
-      <div class="name-wrap">
-        <div class="section-title">
-          <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="9" cy="5.5" r="3"/>
-            <path d="M3 16c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
-          </svg>
-          Ihr vollständiger Name
-        </div>
-        <input class="name-field" type="text" id="name-input" placeholder="Vorname Nachname" autocomplete="name" />
+      <div class="section-title">
+        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="5.5" r="3"/><path d="M3 16c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+        Ihr vollständiger Name
+      </div>
+      <div class="field-wrap">
+        <input type="text" id="name-input" placeholder="Vorname Nachname" autocomplete="name"/>
         <div class="error-msg" id="name-error">Bitte geben Sie Ihren vollständigen Namen ein.</div>
       </div>
 
-      <!-- Slots -->
+      <div class="divider"></div>
+
       <div class="section-title">
-        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="3" width="14" height="13" rx="2"/>
-          <path d="M6 2v2M12 2v2M2 7h14"/>
-          <rect x="5" y="10" width="2" height="2" rx="0.5" fill="currentColor" stroke="none"/>
-          <rect x="8" y="10" width="2" height="2" rx="0.5" fill="currentColor" stroke="none"/>
-          <rect x="11" y="10" width="2" height="2" rx="0.5" fill="currentColor" stroke="none"/>
-        </svg>
-        Ihr <span class="hl">&nbsp;nächster&nbsp;</span> Termin – persönlich für Sie reserviert.
+        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2a5 5 0 0 1 5 5c0 4-5 9-5 9S4 11 4 7a5 5 0 0 1 5-5z"/><circle cx="9" cy="7" r="1.8"/></svg>
+        Standort wählen
+      </div>
+      <div class="field-wrap">
+        <div class="select-wrap">
+          <select id="location-select" onchange="onLocationChange()">
+            <option value="mitte">Blutspendezentrum im ALEXA – Berlin Mitte</option>
+            <option value="steglitz">Institut für Transfusionsmedizin – Berlin Steglitz</option>
+          </select>
+        </div>
+        <div class="location-info">
+          <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6.5 1.5a3.5 3.5 0 0 1 3.5 3.5c0 2.8-3.5 6.5-3.5 6.5S3 7.8 3 5a3.5 3.5 0 0 1 3.5-3.5z"/><circle cx="6.5" cy="5" r="1.2"/></svg>
+          <span id="location-detail">Grunerstr. 20, 10179 Berlin · Mo–Fr 10:00–19:00 Uhr · U/S Alexanderplatz</span>
+        </div>
       </div>
 
-      <div class="slots">
-        <!-- Slot 1: recommended -->
-        <label class="slot recommended" id="slot-0">
-          <input type="radio" name="termin" value="0" onchange="selectSlot(this)">
-          <div class="slot-main">
-            <div class="slot-top">
-              <span class="slot-date">Di., 10. Juni 2025 &nbsp;·&nbsp; 10:30 Uhr</span>
-              <span class="badge-empfohlen">Empfohlen</span>
-            </div>
-            <div class="slot-sub">
-              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 6l3 3 5-5"/>
-              </svg>
-              Dieser Termin passt gut zu Ihrem bisherigen Spendeintervall.
-            </div>
-          </div>
-        </label>
+      <div class="divider"></div>
 
-        <!-- Slot 2 -->
-        <label class="slot" id="slot-1">
-          <input type="radio" name="termin" value="1" onchange="selectSlot(this)">
-          <div class="slot-main">
-            <div class="slot-top">
-              <span class="slot-date">Do., 12. Juni 2025 &nbsp;·&nbsp; 14:00 Uhr</span>
-            </div>
-            <div class="slot-sub muted">Verfügbar</div>
-          </div>
-        </label>
+      <div class="section-title">
+        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="14" height="13" rx="2"/><path d="M6 2v2M12 2v2M2 7h14"/><rect x="5" y="10" width="2" height="2" rx=".5" fill="currentColor" stroke="none"/><rect x="8" y="10" width="2" height="2" rx=".5" fill="currentColor" stroke="none"/><rect x="11" y="10" width="2" height="2" rx=".5" fill="currentColor" stroke="none"/></svg>
+        Ihr nächster Termin – persönlich für Sie reserviert.
+      </div>
 
-        <!-- Slot 3 -->
-        <label class="slot" id="slot-2">
-          <input type="radio" name="termin" value="2" onchange="selectSlot(this)">
-          <div class="slot-main">
-            <div class="slot-top">
-              <span class="slot-date">Sa., 14. Juni 2025 &nbsp;·&nbsp; 09:00 Uhr</span>
-            </div>
-            <div class="slot-sub muted">Verfügbar</div>
+      <div class="slots" id="slots-container"></div>
+
+      <div class="custom-slot" id="custom-slot">
+        <div class="custom-slot-toggle" id="custom-toggle" onclick="toggleCustom()">
+          <div class="custom-toggle-radio" id="custom-radio"></div>
+          <div class="custom-toggle-label">
+            Anderen Termin wählen
+            <small id="custom-summary">Datum und Uhrzeit frei wählen</small>
           </div>
-        </label>
+          <svg class="custom-toggle-chevron" id="custom-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4 4 4-4"/></svg>
+        </div>
+        <div class="custom-picker-body" id="custom-picker-body">
+          <div class="custom-picker-row">
+            <div>
+              <div class="custom-picker-label">Datum</div>
+              <input type="date" id="custom-date" onchange="onCustomChange()"/>
+            </div>
+            <div>
+              <div class="custom-picker-label">Uhrzeit</div>
+              <div class="select-wrap">
+                <select id="custom-time" onchange="onCustomChange()"></select>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="interval-note">
-        <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-          <circle cx="6.5" cy="6.5" r="5"/>
-          <path d="M6.5 5.5v3M6.5 4v.01"/>
-        </svg>
+        <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="5"/><path d="M6.5 5.5v3M6.5 4v.01"/></svg>
         Mindestabstand von 56 Tagen zur letzten Spende eingehalten.
       </div>
-
-      <div class="error-msg" id="slot-error" style="display:none; margin-top:10px;">Bitte wählen Sie einen Termin aus.</div>
+      <div class="error-msg" id="slot-error" style="margin-top:10px;">Bitte wählen Sie einen Termin aus.</div>
 
       <button class="cta" onclick="book()">Jetzt verbindlich buchen</button>
-
     </div>
   </div>
 
-  <!-- footer strip -->
   <div class="footer-strip">
-    <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M11 19s-7-5.1-7-10a7 7 0 0114 0c0 4.9-7 10-7 10z"/>
-      <circle cx="11" cy="9" r="2.5"/>
-    </svg>
+    <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 19s-7-5.1-7-10a7 7 0 0114 0c0 4.9-7 10-7 10z"/><circle cx="11" cy="9" r="2.5"/></svg>
     <span>Vielen Dank, dass Sie Teil unserer Gemeinschaft sind.</span>
   </div>
-
 </div>
 
-<!-- ===== CONFIRMATION VIEW ===== -->
 <div class="confirm-screen" id="confirm-screen">
   <div class="confirm-icon-wrap">
-    <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6 17l8 8L28 9"/>
-    </svg>
+    <svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 17l8 8L28 9"/></svg>
   </div>
   <div class="confirm-title">Termin bestätigt!</div>
-  <div class="confirm-sub">
-    Wir freuen uns auf Ihren Besuch.<br>
-    Bitte erscheinen Sie ausgeruht und gut hydriert.
-  </div>
-
+  <div class="confirm-sub">Wir freuen uns auf Ihren Besuch.<br>Bitte erscheinen Sie ausgeruht und gut hydriert.</div>
   <div class="confirm-box">
-    <div class="confirm-row">
-      <span class="cr-label">Name</span>
-      <span class="cr-value" id="confirm-name">–</span>
-    </div>
-    <div class="confirm-row">
-      <span class="cr-label">Spender-Nr.</span>
-      <span class="cr-value" id="confirm-donor">–</span>
-    </div>
-    <div class="confirm-row">
-      <span class="cr-label">Termin</span>
-      <span class="cr-value" id="confirm-date">–</span>
-    </div>
-    <div class="confirm-row">
-      <span class="cr-label">Ort</span>
-      <span class="cr-value">Hauptstr. 12, 10115 Berlin</span>
+    <div class="confirm-row"><span class="cr-label">Name</span><span class="cr-value" id="confirm-name">–</span></div>
+    <div class="confirm-row"><span class="cr-label">Spender-Nr.</span><span class="cr-value" id="confirm-donor">–</span></div>
+    <div class="confirm-row"><span class="cr-label">Standort</span><span class="cr-value" id="confirm-location">–</span></div>
+    <div class="confirm-row"><span class="cr-label">Datum</span><span class="cr-value" id="confirm-date">–</span></div>
+    <div class="confirm-row"><span class="cr-label">Uhrzeit</span><span class="cr-value" id="confirm-time">–</span></div>
+  </div>
+  <div class="confirm-email-block">
+    <label class="field-label" for="email-input">Bestätigungs-E-Mail <span class="opt">(optional)</span></label>
+    <input type="email" id="email-input" placeholder="ihre@email.de" autocomplete="email"/>
+    <button class="email-btn" id="email-btn" onclick="sendEmail()">Bestätigung per E-Mail senden</button>
+    <div class="email-sent-msg" id="email-sent-msg">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7l4 4 6-6"/></svg>
+      Bestätigung wurde gesendet.
     </div>
   </div>
-
   <a class="back-link" onclick="reset()">
-    <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M8 2L4 6.5 8 11"/>
-    </svg>
+    <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2L4 6.5 8 11"/></svg>
     Anderen Termin buchen
   </a>
 </div>
 
 <script>
-  const slots = [
-    { label: 'Di., 10. Juni 2025 · 10:30 Uhr' },
-    { label: 'Do., 12. Juni 2025 · 14:00 Uhr' },
-    { label: 'Sa., 14. Juni 2025 · 09:00 Uhr' },
+  const LOCATIONS = {
+    mitte:    { short: 'ALEXA Berlin Mitte',        detail: 'Grunerstr. 20, 10179 Berlin · Mo–Fr 10:00–19:00 Uhr · U/S Alexanderplatz', header: 'Blutspendezentrum ALEXA · Berlin Mitte' },
+    steglitz: { short: 'Hindenburgdamm, Steglitz',  detail: 'Hindenburgdamm 30A, 12203 Berlin · Mo–Fr 08:00–19:00 Uhr · Bus M85/285',   header: 'Institut für Transfusionsmedizin · Steglitz' }
+  };
+
+  const FIXED_SLOTS = [
+    { date: 'Di., 10. Juni 2025', defaultTime: '10:30 Uhr', recommended: true,  note: 'Passt zu Ihrem bisherigen Spendeintervall.' },
+    { date: 'Do., 12. Juni 2025', defaultTime: '14:00 Uhr', recommended: false, note: 'Verfügbar' },
+    { date: 'Sa., 14. Juni 2025', defaultTime: '09:00 Uhr', recommended: false, note: 'Verfügbar' },
   ];
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const donorId = urlParams.get('id') || 'BSP-2847';
-  document.getElementById('display-donor-id').textContent = donorId;
+  // 30-min slots 08:00–18:30
+  const TIMES = [];
+  for (let h = 8; h < 19; h++) {
+    TIMES.push(`${String(h).padStart(2,'0')}:00 Uhr`);
+    TIMES.push(`${String(h).padStart(2,'0')}:30 Uhr`);
+  }
 
   let selectedSlot = null;
+  let customOpen = false;
 
-  function selectSlot(radio) {
-    selectedSlot = parseInt(radio.value);
+  const donorId = new URLSearchParams(window.location.search).get('id') || 'BSP-2847';
+  document.getElementById('display-donor-id').textContent = donorId;
+
+  // Populate custom time dropdown
+  const customTimeEl = document.getElementById('custom-time');
+  TIMES.forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t; opt.textContent = t;
+    if (t === '10:30 Uhr') opt.selected = true;
+    customTimeEl.appendChild(opt);
+  });
+
+  document.getElementById('custom-date').min = new Date().toISOString().split('T')[0];
+  document.getElementById('custom-date').value = '2025-06-10';
+
+  function buildSlots() {
+    const container = document.getElementById('slots-container');
+    container.innerHTML = '';
+    selectedSlot = null;
+    customOpen = false;
+    document.getElementById('custom-picker-body').classList.remove('open');
+    document.getElementById('custom-toggle').classList.remove('open');
+    document.getElementById('custom-chevron').classList.remove('open');
+    document.getElementById('custom-radio').classList.remove('selected');
+    document.getElementById('custom-summary').textContent = 'Datum und Uhrzeit frei wählen';
+
+    FIXED_SLOTS.forEach((s, i) => {
+      const timeOpts = TIMES.map(t =>
+        `<option value="${t}"${t === s.defaultTime ? ' selected' : ''}>${t}</option>`
+      ).join('');
+
+      const div = document.createElement('label');
+      div.className = 'slot' + (s.recommended ? ' recommended' : '');
+      div.id = 'slot-' + i;
+      div.innerHTML = `
+        <input type="radio" name="termin" value="${i}" onchange="selectFixed(${i})">
+        <div class="slot-main">
+          <div class="slot-top">
+            <span class="slot-date">${s.date}</span>
+            ${s.recommended ? '<span class="badge-empfohlen">Empfohlen</span>' : ''}
+          </div>
+          <div class="slot-sub ${s.recommended ? '' : 'muted'}">
+            ${s.recommended ? '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6l3 3 5-5"/></svg>' : ''}
+            ${s.note}
+          </div>
+        </div>
+        <div class="slot-time-wrap">
+          <div class="select-wrap">
+            <select class="slot-time-select" onclick="event.stopPropagation()" onchange="event.stopPropagation()">${timeOpts}</select>
+          </div>
+        </div>`;
+      container.appendChild(div);
+    });
+  }
+
+  function selectFixed(i) {
+    selectedSlot = i;
     document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
-    document.getElementById('slot-' + selectedSlot).classList.add('selected');
+    document.getElementById('slot-' + i).classList.add('selected');
+    customOpen = false;
+    document.getElementById('custom-picker-body').classList.remove('open');
+    document.getElementById('custom-toggle').classList.remove('open');
+    document.getElementById('custom-chevron').classList.remove('open');
+    document.getElementById('custom-radio').classList.remove('selected');
     document.getElementById('slot-error').style.display = 'none';
+  }
+
+  function toggleCustom() {
+    customOpen = !customOpen;
+    document.getElementById('custom-picker-body').classList.toggle('open', customOpen);
+    document.getElementById('custom-toggle').classList.toggle('open', customOpen);
+    document.getElementById('custom-chevron').classList.toggle('open', customOpen);
+    if (customOpen) {
+      document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
+      document.querySelectorAll('input[name="termin"]').forEach(r => r.checked = false);
+      selectedSlot = 'custom';
+      document.getElementById('custom-radio').classList.add('selected');
+      onCustomChange();
+    } else {
+      if (selectedSlot === 'custom') { selectedSlot = null; document.getElementById('custom-radio').classList.remove('selected'); }
+    }
+    document.getElementById('slot-error').style.display = 'none';
+  }
+
+  function onCustomChange() {
+    const d = document.getElementById('custom-date').value;
+    const t = document.getElementById('custom-time').value;
+    if (d) {
+      const fmt = new Date(d + 'T12:00:00').toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' });
+      document.getElementById('custom-summary').textContent = fmt + ' · ' + t;
+    }
+  }
+
+  function onLocationChange() {
+    const loc = LOCATIONS[document.getElementById('location-select').value];
+    document.getElementById('location-detail').textContent = loc.detail;
+    document.getElementById('header-location-label').textContent = loc.header;
+    buildSlots();
   }
 
   function book() {
     const name = document.getElementById('name-input').value.trim();
-    const nameErr = document.getElementById('name-error');
-    const slotErr = document.getElementById('slot-error');
     let ok = true;
-
-    if (!name || name.trim().split(/\s+/).length < 2) {
-      nameErr.style.display = 'block'; ok = false;
-    } else {
-      nameErr.style.display = 'none';
+    if (!name || name.split(/\s+/).length < 2) { document.getElementById('name-error').style.display = 'block'; ok = false; }
+    else { document.getElementById('name-error').style.display = 'none'; }
+    if (selectedSlot === null) { document.getElementById('slot-error').style.display = 'block'; ok = false; }
+    else { document.getElementById('slot-error').style.display = 'none'; }
+    if (selectedSlot === 'custom' && !document.getElementById('custom-date').value) {
+      document.getElementById('slot-error').textContent = 'Bitte wählen Sie ein Datum aus.';
+      document.getElementById('slot-error').style.display = 'block'; ok = false;
     }
-
-    if (selectedSlot === null) {
-      slotErr.style.display = 'block'; ok = false;
-    } else {
-      slotErr.style.display = 'none';
-    }
-
     if (!ok) return;
+
+    const loc = LOCATIONS[document.getElementById('location-select').value];
+    let dateStr, timeStr;
+    if (selectedSlot === 'custom') {
+      const d = document.getElementById('custom-date').value;
+      dateStr = new Date(d + 'T12:00:00').toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' });
+      timeStr = document.getElementById('custom-time').value;
+    } else {
+      dateStr = FIXED_SLOTS[selectedSlot].date;
+      timeStr = document.querySelector('#slot-' + selectedSlot + ' .slot-time-select').value;
+    }
 
     document.getElementById('confirm-name').textContent = name;
     document.getElementById('confirm-donor').textContent = donorId;
-    document.getElementById('confirm-date').textContent = slots[selectedSlot].label;
+    document.getElementById('confirm-location').textContent = loc.short;
+    document.getElementById('confirm-date').textContent = dateStr;
+    document.getElementById('confirm-time').textContent = timeStr;
+    document.getElementById('email-input').value = '';
+    document.getElementById('email-sent-msg').style.display = 'none';
+    document.getElementById('email-btn').style.display = 'block';
 
     document.getElementById('booking-view').style.display = 'none';
     const el = document.getElementById('confirm-screen');
-    el.style.display = 'block';
-    el.classList.add('fadein');
+    el.style.display = 'block'; el.classList.add('fadein');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  function sendEmail() {
+    const email = document.getElementById('email-input').value.trim();
+    if (!email || !email.includes('@')) { document.getElementById('email-input').style.borderColor = 'var(--red)'; document.getElementById('email-input').focus(); return; }
+    document.getElementById('email-input').style.borderColor = '';
+    document.getElementById('email-btn').style.display = 'none';
+    document.getElementById('email-sent-msg').style.display = 'flex';
+  }
+
   function reset() {
-    selectedSlot = null;
     document.getElementById('name-input').value = '';
-    document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
-    document.querySelectorAll('input[name="termin"]').forEach(r => r.checked = false);
     document.getElementById('booking-view').style.display = 'block';
     const el = document.getElementById('confirm-screen');
-    el.style.display = 'none';
-    el.classList.remove('fadein');
+    el.style.display = 'none'; el.classList.remove('fadein');
+    buildSlots();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  buildSlots();
 </script>
 </body>
 </html>
